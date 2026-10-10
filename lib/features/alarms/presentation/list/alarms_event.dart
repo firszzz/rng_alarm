@@ -1,11 +1,8 @@
 part of 'alarms_bloc.dart';
 
 /// Fact reported to the alarm list
-sealed class AlarmsEvent with Equatable {
+sealed class AlarmsEvent {
   const AlarmsEvent();
-
-  @override
-  List<Object?> get props => [];
 }
 
 /// Screen opened the alarm list
@@ -19,9 +16,6 @@ final class AlarmsToggleEvent extends AlarmsEvent {
 
   /// Identifier of the alarm to switch
   final String id;
-
-  @override
-  List<Object?> get props => [id];
 }
 
 /// User removed one alarm
@@ -30,9 +24,6 @@ final class AlarmsDeleteEvent extends AlarmsEvent {
 
   /// Identifier of the alarm to remove
   final String id;
-
-  @override
-  List<Object?> get props => [id];
 }
 
 /// Editor returned an alarm to insert or replace
@@ -41,7 +32,4 @@ final class AlarmsUpsertEvent extends AlarmsEvent {
 
   /// Alarm to insert or replace by [Alarm.id]
   final Alarm alarm;
-
-  @override
-  List<Object?> get props => [alarm];
 }

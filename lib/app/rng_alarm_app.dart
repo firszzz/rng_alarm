@@ -8,6 +8,6 @@ class RngAlarmApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Будильник', theme: UITheme.dark.toThemeData(), home: const AlarmsScreen());
+    return MaterialApp(title: 'Alarm', theme: UITheme.dark.toThemeData(), home: const AlarmsScreen());
   }
 }
