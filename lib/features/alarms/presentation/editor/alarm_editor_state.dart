@@ -2,15 +2,25 @@ part of 'alarm_editor_bloc.dart';
 
 /// Snapshot of the alarm form
 sealed class AlarmEditorState {
-  AlarmEditorState({required this.alarmId, required this.time, required this.name, required this.isEnabled, required this.vibrates});
+  AlarmEditorState({
+    required this.alarmId,
+    required this.from,
+    required this.to,
+    required this.name,
+    required this.isEnabled,
+    required this.vibrates,
+  });
 
   /// Identifier of the alarm being edited
   ///
   /// Null when the form creates a new alarm
   final String? alarmId;
 
-  /// Time shown in the form
-  final AlarmTime time;
+  /// First minute of the window shown in the form
+  final AlarmTime from;
+
+  /// Last minute of the window shown in the form
+  final AlarmTime to;
 
   /// Name shown in the form, including surrounding spaces
   final String name;
@@ -26,19 +36,31 @@ sealed class AlarmEditorState {
 class AlarmEditorEditingState extends AlarmEditorState {
   AlarmEditorEditingState({
     required super.alarmId,
-    required super.time,
+    required super.from,
+    required super.to,
     required super.name,
     required super.isEnabled,
     required super.vibrates,
   });
 
+  AlarmEditorEditingState.empty()
+    : this(
+        alarmId: null,
+        from: AlarmTime(hour: 6, minute: 40),
+        to: AlarmTime(hour: 7, minute: 0),
+        name: '',
+        isEnabled: true,
+        vibrates: true,
+      );
+
   /// Copy with the given fields replaced
   ///
   /// A null argument keeps the current value
-  AlarmEditorEditingState copyWith({AlarmTime? time, String? name, bool? vibrates}) {
+  AlarmEditorEditingState copyWith({AlarmTime? from, AlarmTime? to, String? name, bool? vibrates}) {
     return AlarmEditorEditingState(
       alarmId: alarmId,
-      time: time ?? this.time,
+      from: from ?? this.from,
+      to: to ?? this.to,
       name: name ?? this.name,
       isEnabled: isEnabled,
       vibrates: vibrates ?? this.vibrates,

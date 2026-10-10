@@ -19,7 +19,14 @@ void main() {
   group('$AlarmsScreen', () {
     late MockAlarmsBloc bloc;
 
-    final alarm = Alarm(id: '1', time: const AlarmTime(hour: 7, minute: 30), name: 'Подъём', isEnabled: true, vibrates: true);
+    final alarm = Alarm(
+      id: '1',
+      from: const AlarmTime(hour: 7, minute: 30),
+      to: const AlarmTime(hour: 7, minute: 40),
+      name: 'Подъём',
+      isEnabled: true,
+      vibrates: true,
+    );
 
     setUpAll(() {
       registerFallbackValue(const AlarmsStartedEvent());
@@ -39,7 +46,7 @@ void main() {
     testWidgets('The card shows the time and name and sends a toggle', (tester) async {
       await tester.pumpWidget(_themedList());
 
-      expect(find.text('07:30'), findsOneWidget);
+      expect(find.text('07:30 – 07:40'), findsOneWidget);
       expect(find.text('Подъём'), findsOneWidget);
 
       await tester.tap(find.byKey(const Key('testAlarmSwitch_1')));

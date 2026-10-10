@@ -3,7 +3,7 @@ import 'package:rng_alarm/app/ui_theme.dart';
 import 'package:rng_alarm/features/alarms/domain/alarm.dart';
 import 'package:rng_alarm/features/alarms/presentation/alarm_time_label.dart';
 
-/// Row of one alarm: time, name and enabled switch
+/// Row of one alarm
 class AlarmCard extends StatelessWidget {
   const AlarmCard({super.key, required this.alarm, required this.onTap, required this.onToggle, required this.onDelete});
 
@@ -53,9 +53,13 @@ class AlarmCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        alarmTimeLabel(alarm.time),
-                        style: TextStyle(fontSize: 40, fontWeight: FontWeight.w400, color: timeColor, height: 1.1),
+                      FittedBox(
+                        alignment: Alignment.centerLeft,
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          AlarmLabels.alarmWindowLabel(alarm.from, alarm.to),
+                          style: TextStyle(fontSize: 40, fontWeight: FontWeight.w400, color: timeColor, height: 1.1),
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(name, style: TextStyle(fontSize: 14, color: theme.secondaryText)),
