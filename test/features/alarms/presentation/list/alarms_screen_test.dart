@@ -36,7 +36,7 @@ void main() {
       injector.removeByKey<AlarmsBloc>();
     });
 
-    testWidgets('Карточка показывает время и название и шлёт переключение', (tester) async {
+    testWidgets('The card shows the time and name and sends a toggle', (tester) async {
       await tester.pumpWidget(_themedList());
 
       expect(find.text('07:30'), findsOneWidget);
@@ -48,7 +48,7 @@ void main() {
       verify(() => bloc.add(any(that: isA<AlarmsToggleEvent>().having((event) => event.id, 'id', '1')))).called(1);
     });
 
-    testWidgets('Закрытие экрана закрывает блок', (tester) async {
+    testWidgets('Disposing the screen closes the bloc', (tester) async {
       await tester.pumpWidget(_themedList());
 
       await tester.pumpWidget(const SizedBox.shrink());

@@ -13,7 +13,7 @@ void main() {
     final alarm = _alarm();
 
     blocTest<AlarmsBloc, AlarmsState>(
-      'Добавление кладёт будильник в конец списка',
+      'Adding an alarm appends it to the list',
       build: AlarmsBloc.new,
       act: (bloc) => bloc.add(AlarmsUpsertEvent(alarm)),
       expect: () => [
@@ -22,7 +22,7 @@ void main() {
     );
 
     blocTest<AlarmsBloc, AlarmsState>(
-      'Повторное сохранение заменяет будильник с тем же id',
+      'Saving the same id replaces the alarm',
       build: AlarmsBloc.new,
       seed: () => AlarmsContentState(alarms: [alarm]),
       act: (bloc) => bloc.add(AlarmsUpsertEvent(alarm.copyWith(name: 'Работа'))),
@@ -32,7 +32,7 @@ void main() {
     );
 
     blocTest<AlarmsBloc, AlarmsState>(
-      'Переключение меняет включённость будильника',
+      'Toggling flips whether the alarm is enabled',
       build: AlarmsBloc.new,
       seed: () => AlarmsContentState(alarms: [alarm]),
       act: (bloc) => bloc.add(const AlarmsToggleEvent('1')),
@@ -42,7 +42,7 @@ void main() {
     );
 
     blocTest<AlarmsBloc, AlarmsState>(
-      'Переключение неизвестного id не меняет список',
+      'Toggling an unknown id leaves the list unchanged',
       build: AlarmsBloc.new,
       seed: () => AlarmsContentState(alarms: [alarm]),
       act: (bloc) => bloc.add(const AlarmsToggleEvent('missing')),
@@ -50,7 +50,7 @@ void main() {
     );
 
     blocTest<AlarmsBloc, AlarmsState>(
-      'Удаление убирает будильник из списка',
+      'Deleting removes the alarm from the list',
       build: AlarmsBloc.new,
       seed: () => AlarmsContentState(
         alarms: [
@@ -65,7 +65,7 @@ void main() {
     );
 
     blocTest<AlarmsBloc, AlarmsState>(
-      'Удаление неизвестного id не меняет список',
+      'Deleting an unknown id leaves the list unchanged',
       build: AlarmsBloc.new,
       seed: () => AlarmsContentState(alarms: [alarm]),
       act: (bloc) => bloc.add(const AlarmsDeleteEvent('missing')),

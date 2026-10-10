@@ -11,7 +11,7 @@ void main() {
     final existing = Alarm(id: 'existing', time: const AlarmTime(hour: 8, minute: 15), name: 'Работа', isEnabled: false, vibrates: false);
 
     blocTest<AlarmEditorBloc, AlarmEditorState>(
-      'Старт существующего будильника заполняет форму',
+      'Starting with an existing alarm fills the form',
       build: _bloc,
       act: (bloc) => bloc.add(AlarmEditorStartedEvent(existing)),
       expect: () => [
@@ -26,7 +26,7 @@ void main() {
     );
 
     blocTest<AlarmEditorBloc, AlarmEditorState>(
-      'Смена времени, названия и вибрации обновляет форму',
+      'Changing time, name and vibration updates the form',
       build: _bloc,
       act: (bloc) {
         bloc
@@ -41,7 +41,7 @@ void main() {
       ],
     );
 
-    test('Сохранение нового будильника отдаёт эффект с новым id', () async {
+    test('Saving a new alarm emits an effect with a new id', () async {
       final bloc = _bloc();
       final saved = expectLater(
         bloc.effects,
@@ -62,7 +62,7 @@ void main() {
       await bloc.close();
     });
 
-    test('Сохранение существующего будильника сохраняет id и выключенное состояние', () async {
+    test('Saving an existing alarm keeps its id and disabled state', () async {
       final bloc = _bloc();
       final saved = expectLater(bloc.effects, emits(AlarmEditorSavedEffect(existing.copyWith(name: 'Смена'))));
 
