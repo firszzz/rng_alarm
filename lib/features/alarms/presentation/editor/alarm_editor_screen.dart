@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rng_alarm/di/injector.dart';
 import 'package:rng_alarm/features/alarms/domain/alarm.dart';
 import 'package:rng_alarm/features/alarms/domain/alarm_time.dart';
+import 'package:rng_alarm/features/alarms/domain/alarm_window_issue.dart';
 import 'package:rng_alarm/features/alarms/presentation/alarm_time_label.dart';
 import 'package:rng_alarm/features/alarms/presentation/editor/alarm_editor_bloc.dart';
 
@@ -53,7 +54,16 @@ class _AlarmEditorScreenState extends State<AlarmEditorScreen> {
       case AlarmEditorSavedEffect(:final alarm):
         _didPop = true;
         Navigator.pop(context, alarm);
+      case AlarmEditorInvalidEffect(:final issue):
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_alarmWindowIssueLabel(issue))));
     }
+  }
+
+  String _alarmWindowIssueLabel(AlarmWindowIssue issue) {
+    return switch (issue) {
+      AlarmWindowIssue.endsTooEarly => 'The end must be later on the same day',
+      AlarmWindowIssue.shorterThanMinimum => 'The window must be at least 10 minutes',
+    };
   }
 
   @override
@@ -71,9 +81,15 @@ class _AlarmEditorScreenState extends State<AlarmEditorScreen> {
               children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: const Text('Time'),
-                  trailing: Text(alarmTimeLabel(state.time), style: Theme.of(context).textTheme.headlineSmall),
-                  onTap: () => _pickTime(state.time),
+                  title: const Text('Not before'),
+                  trailing: Text(AlarmLabels.alarmTimeLabel(state.from), style: Theme.of(context).textTheme.headlineSmall),
+                  onTap: () => _pickTime(state.from, (from) => _bloc.add(AlarmEditorFromChangedEvent(from))),
+                ),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Not later'),
+                  trailing: Text(AlarmLabels.alarmTimeLabel(state.to), style: Theme.of(context).textTheme.headlineSmall),
+                  onTap: () => _pickTime(state.to, (to) => _bloc.add(AlarmEditorToChangedEvent(to))),
                 ),
                 TextField(
                   key: const Key('testAlarmName'),
@@ -98,7 +114,7 @@ class _AlarmEditorScreenState extends State<AlarmEditorScreen> {
     );
   }
 
-  Future<void> _pickTime(AlarmTime current) async {
+  Future<void> _pickTime(AlarmTime current, void Function(AlarmTime time) onPicked) async {
     final picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay(hour: current.hour, minute: current.minute),
@@ -110,6 +126,6 @@ class _AlarmEditorScreenState extends State<AlarmEditorScreen> {
       return;
     }
 
-    _bloc.add(AlarmEditorTimeChangedEvent(AlarmTime(hour: picked.hour, minute: picked.minute)));
+    onPicked(AlarmTime(hour: picked.hour, minute: picked.minute));
   }
 }

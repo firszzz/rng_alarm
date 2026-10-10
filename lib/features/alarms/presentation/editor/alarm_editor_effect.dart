@@ -18,3 +18,14 @@ final class AlarmEditorSavedEffect extends AlarmEditorEffect {
   @override
   List<Object?> get props => [alarm];
 }
+
+/// Save rejected because the window cannot ring
+final class AlarmEditorInvalidEffect extends AlarmEditorEffect {
+  const AlarmEditorInvalidEffect(this.issue);
+
+  /// Why the window was rejected
+  final AlarmWindowIssue issue;
+
+  @override
+  List<Object?> get props => [issue];
+}

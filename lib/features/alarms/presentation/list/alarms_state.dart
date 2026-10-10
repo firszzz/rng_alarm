@@ -11,4 +11,6 @@ sealed class AlarmsState {
 /// Alarm list ready to draw
 class AlarmsContentState extends AlarmsState {
   AlarmsContentState({required super.alarms});
+
+  AlarmsContentState.empty() : this(alarms: const []);
 }

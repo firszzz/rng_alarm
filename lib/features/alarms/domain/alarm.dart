@@ -3,13 +3,23 @@ import 'package:rng_alarm/features/alarms/domain/alarm_time.dart';
 
 /// Alarm
 class Alarm with Equatable {
-  const Alarm({required this.id, required this.time, required this.name, required this.isEnabled, required this.vibrates});
+  const Alarm({
+    required this.id,
+    required this.from,
+    required this.to,
+    required this.name,
+    required this.isEnabled,
+    required this.vibrates,
+  });
 
   /// Identifier of the alarm
   final String id;
 
-  /// Clock time of the alarm
-  final AlarmTime time;
+  /// First minute of the window, inclusive
+  final AlarmTime from;
+
+  /// Last minute of the window, inclusive
+  final AlarmTime to;
 
   /// Name entered by the user
   ///
@@ -22,10 +32,14 @@ class Alarm with Equatable {
   /// Whether the alarm vibrates while it rings
   final bool vibrates;
 
-  Alarm copyWith({AlarmTime? time, String? name, bool? isEnabled, bool? vibrates}) {
+  /// Copy with the given fields replaced
+  ///
+  /// A null argument keeps the current value
+  Alarm copyWith({AlarmTime? from, AlarmTime? to, String? name, bool? isEnabled, bool? vibrates}) {
     return Alarm(
       id: id,
-      time: time ?? this.time,
+      from: from ?? this.from,
+      to: to ?? this.to,
       name: name ?? this.name,
       isEnabled: isEnabled ?? this.isEnabled,
       vibrates: vibrates ?? this.vibrates,
@@ -33,5 +47,5 @@ class Alarm with Equatable {
   }
 
   @override
-  List<Object?> get props => [id, time, name, isEnabled, vibrates];
+  List<Object?> get props => [id, from, to, name, isEnabled, vibrates];
 }

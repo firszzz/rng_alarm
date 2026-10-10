@@ -15,12 +15,20 @@ class AlarmEditorStartedEvent extends AlarmEditorEvent {
   final Alarm? alarm;
 }
 
-/// User picked another time
-class AlarmEditorTimeChangedEvent extends AlarmEditorEvent {
-  const AlarmEditorTimeChangedEvent(this.time);
+/// User picked another start of the window
+class AlarmEditorFromChangedEvent extends AlarmEditorEvent {
+  const AlarmEditorFromChangedEvent(this.from);
 
-  /// Time chosen in the form
-  final AlarmTime time;
+  /// Start chosen in the form
+  final AlarmTime from;
+}
+
+/// User picked another end of the window
+class AlarmEditorToChangedEvent extends AlarmEditorEvent {
+  const AlarmEditorToChangedEvent(this.to);
+
+  /// End chosen in the form
+  final AlarmTime to;
 }
 
 /// User edited the name
